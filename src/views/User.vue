@@ -48,7 +48,7 @@
             </a-menu>
         </div>
         <div class="right">
-            <component :is="currentView"></component>
+            <component :stockid="this.stockid" @changeview="changeview" :is="currentView"></component>
         </div>
     </div>
 </template>
@@ -76,6 +76,7 @@
         },
         data() {
             return {
+                stockid:null,
                 current: '0',
                 arr: [
                     'Userinfo',
@@ -103,7 +104,12 @@
         methods: {
             handleClick(e) {
                 console.log('click ', e);
+                this.stockid = null;
                 this.current = e.key;
+            },
+            changeview(data){
+                this.current = data.page;
+                this.stockid = data.id;
             }
         },
     }

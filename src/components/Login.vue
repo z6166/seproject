@@ -87,7 +87,7 @@
                                 //this.setCookie("token", response.data.data.token, expireDays);
                                 //this.setCookie("username", response.data.data.user_name, expireDays);
                                 //登录成功后
-                                this.$router.go(0);
+                                this.$router.push('/user');
                             }
                         }
                     ).then(this.closeit()).then(this.$router.push('/'));

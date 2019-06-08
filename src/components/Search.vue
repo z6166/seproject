@@ -7,12 +7,14 @@
                 <a-select-option value="name">股票名称</a-select-option>
                 <a-select-option value="id">股票代码</a-select-option>
             </a-select>
-            <a-input v-model="searchcontent" @pressEnter="searchevent" style="width: 80%"><a-icon slot="suffix" type="search" @click="searchevent"></a-icon></a-input>
+            <a-input v-model="searchcontent" @pressEnter="searchevent" style="width: 80%">
+                <a-icon slot="suffix" type="search" @click="searchevent"></a-icon>
+            </a-input>
         </a-input-group>
         <br/>
         <a-table :columns="columns" :dataSource="Searchresult" :pagination="pagination">
             <span slot="action" slot-scope="text, record">
-              <a href="javascript:">Buy</a>
+                <a href="javascript:" @click="handleBuy(record.id)">Buy</a>
             </span>
         </a-table>
     </div>
@@ -38,7 +40,7 @@
         name: "Search",
         data() {
             return {
-                searchselect:'name',
+                searchselect: 'name',
                 Searchresult,
                 columns,
                 searchcontent: '',
@@ -56,9 +58,16 @@
             searchevent() {
                 if (this.searchcontent !== "") {
                     this.tosearch();
-                }else {
+                } else {
                     this.$message.error("请输入搜索内容！")
                 }
+            },
+            handleBuy(id){
+                let data={
+                    id:id,
+                    page:'2'
+                };
+                this.$emit('changeview',data);
             },
             tosearch() {
                 console.log("begin");
