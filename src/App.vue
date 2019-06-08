@@ -15,13 +15,13 @@
           <a class="ant-dropdown-link" href="#">
             <a-icon type="user" />
           </a>
-          <a-menu slot="overlay">
+          <a-menu slot="overlay" style="width: 100px">
             <a-menu-item key="0">
               <a v-if="!this.$cookies.isKey('token')" @click="showModal">登录</a>
               <a v-if="this.$cookies.isKey('token')" @click="logout">退出</a>
             </a-menu-item>
             <a-menu-item key="1">
-              <a v-if="this.$cookies.isKey('token')"><router-link to="/user">个人中心</router-link></a>
+              <a v-if="this.$cookies.isKey('token')"><router-link to="/user" style="color: rgba(0, 0, 0, 0.65)">个人中心</router-link></a>
             </a-menu-item>
           </a-menu>
         </a-dropdown>

@@ -2,7 +2,7 @@
 
 <template>
     <div class="login" id="login">
-        <a href="javascript:;" class="log-close" @click="closeit">
+        <a href="javascript:" class="log-close" @click="closeit">
             <i class="icons close"></i>
         </a>
         <div class="log-bg">
@@ -12,7 +12,6 @@
             <div class="log-cloud cloud4"></div>
 
             <div class="log-logo">Welcome!</div>
-            <div class="log-text">@doterlin</div>
         </div>
         <div class="log-email">
             <input
@@ -28,9 +27,6 @@
                     v-model="password"
             >
             <a-button href="javascript:;" class="log-btn" @click="login">Login</a-button>
-        </div>
-        <div class="example">
-            <a-spin size="large" v-if="isLoging"></a-spin>
         </div>
     </div>
 </template>
@@ -62,11 +58,6 @@
 
             //登录请求
             toLogin() {
-                //一般要跟后端了解密码的加密规则
-                //这里例子用的哈希算法来自./js/sha1.min.js
-                //let password_sha = hex_sha1(hex_sha1(this.password));
-
-                //需要想后端发送的登录参数
                 let loginParam = {
                     account: this.account,
                     password: this.password
@@ -84,11 +75,11 @@
                     })
                     */
                 this.$http
-                    .get("http://localhost:8080/json/login.json")
+                    .get("http://localhost:8080/json/login.json",{param:loginParam})
                     .then(
                         response => {
                             console.log(response.data.data);
-                            console.log(response.data.data.token)
+                            console.log(response.data.data.token);
                             if (response.data.code === 0) {
                                 let expireDays = 1000 * 60 * 60 * 24 * 15;
                                 this.$cookies.set('token', response.data.data.token, expireDays);
@@ -98,10 +89,6 @@
                                 //登录成功后
                                 this.$router.go(0);
                             }
-                        },
-                        response => {
-                            console.log("error");
-                            //Error
                         }
                     ).then(this.closeit()).then(this.$router.push('/'));
 
@@ -111,14 +98,6 @@
 </script>
 
 <style scoped>
-    .example {
-        text-align: center;
-        background: rgba(0, 0, 0, 0.05);
-        border-radius: 4px;
-        padding: 30px 50px;
-        margin: 20px 0;
-    }
-
     .login {
         position: fixed;
         overflow: hidden;
@@ -136,8 +115,8 @@
         -ms-border-radius: 5px;
         -o-border-radius: 5px;
         border-radius: 5px;
-        -webkit-box-shadow: 0px 3px 16px -5px #070707;
-        box-shadow: 0px 3px 16px -5px #070707;
+        -webkit-box-shadow: 0 3px 16px -5px #070707;
+        box-shadow: 0 3px 16px -5px #070707;
     }
 
     .log-close {

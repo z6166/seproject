@@ -7,11 +7,13 @@
                 <a-select-option value="name">股票名称</a-select-option>
                 <a-select-option value="id">股票代码</a-select-option>
             </a-select>
-            <a-input v-model="searchcontent" @pressEnter="searchevent" style="width: 70%"><a-icon slot="suffix" type="search" @click="searchevent"></a-icon></a-input>
+            <a-input v-model="searchcontent" @pressEnter="searchevent" style="width: 80%"><a-icon slot="suffix" type="search" @click="searchevent"></a-icon></a-input>
         </a-input-group>
         <br/>
-        <a-table :columns="columns" :dataSource="Searchresult" :pagination="pagination" rowKey="test">
-            <a slot="action" slot-scope="text" href="javascript:;">Buy</a>
+        <a-table :columns="columns" :dataSource="Searchresult" :pagination="pagination">
+            <span slot="action" slot-scope="text, record">
+              <a href="javascript:">Buy</a>
+            </span>
         </a-table>
     </div>
 </template>
@@ -60,7 +62,7 @@
             },
             tosearch() {
                 console.log("begin");
-                console.log(this.searchselect)
+                console.log(this.searchselect);
 
                 this.$http.get("http://localhost:8080/json/info.json").then(
                     response => {
@@ -68,10 +70,6 @@
                         if (response.data.code === 0) {
                             this.Searchresult = response.data.data;
                         }
-                    },
-                    response => {
-                        console.log("error");
-                        //Error
                     }
                 );
 
