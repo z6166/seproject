@@ -2,8 +2,11 @@
     <div class="Userinfo">
         <a-avatar :size="128" :src="this.face"/>
         <br/>
+        <br/>
         <p>用户名：{{ this.username }}</p>
+        <br/>
         <p>用户id：{{ this.userid }}</p>
+        <br/>
         <p>资金：{{ this.money }}</p>
     </div>
 </template>
@@ -46,7 +49,4 @@
 </script>
 
 <style scoped>
-.Userinfo{
-    text-align:center;
-}
 </style>

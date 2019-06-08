@@ -2,7 +2,7 @@
     <div class="User">
         <div class="left">
             <a-menu
-                    style="width: 256px"
+                    style="width: 350px"
                     :defaultSelectedKeys="['1']"
                     :defaultOpenKeys="['sub1']"
                     mode="inline"
@@ -47,7 +47,9 @@
                 </a-menu-item>
             </a-menu>
         </div>
-        <div class="right">
+        <div class="right" style="text-align:center;">
+            <br/>
+            <br/>
             <component :stockid="this.stockid" @changeview="changeview" :is="currentView"></component>
         </div>
     </div>

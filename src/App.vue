@@ -20,8 +20,8 @@
               <a v-if="!this.$cookies.isKey('token')" @click="showModal">登录</a>
               <a v-if="this.$cookies.isKey('token')" @click="logout">退出</a>
             </a-menu-item>
-            <a-menu-item key="1">
-              <a v-if="this.$cookies.isKey('token')"><router-link to="/user" style="color: rgba(0, 0, 0, 0.65)">个人中心</router-link></a>
+            <a-menu-item v-if="this.$cookies.isKey('token')" key="1"><router-link to="/user" style="color: rgba(0, 0, 0, 0.65)">
+              个人中心</router-link>
             </a-menu-item>
           </a-menu>
         </a-dropdown>
