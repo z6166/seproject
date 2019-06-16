@@ -2,7 +2,8 @@
     <div class="Userinfo" style="text-align: center">
         <div v-for="(value,key) in info[$cookies.get('perorcom')]" :key="key">
             <div v-if="!edit[key]">
-                <p style="display:inline;">{{infotoname[key]}}:{{value}}</p>
+                <p style="display:inline;">{{infotoname[key]}}:</p>
+                <p style="display:inline;font-weight: bolder">{{value}}</p>
                 <a-icon @click="editname(key,value)" type="edit"/>
             </div>
             <div v-else>
@@ -11,9 +12,14 @@
                     <a-icon slot="suffix" @click="cancelnewname" style="color: red;" type="close" />
                 </a-input>
             </div>
+            <br/>
         </div>
         <br/>
-        <a-button v-if="flag" type="primary" @click="change">确认修改</a-button>
+        <div v-if="flag">
+            <a-button type="primary" @click="change">确认修改</a-button>
+            <br/>
+        </div>
+
         <br/>
         <div style="width: 50%;margin: auto">
             <a-row :gutter="16">
@@ -150,6 +156,8 @@
                         response => {
                             if (response.data.code === 0) {
                                 this.$message.success("修改成功！");
+                                this.init();
+                                this.flag = false;
                             } else {
                                 this.$message.error(response.data.msg)
                             }
