@@ -11,19 +11,17 @@
         >
             <a-list-item slot="renderItem" slot-scope="item, index">
                 <a-card
+                        :title="'股票名: ' + item.name + ', 股票代码: ' + item.id"
                         :bordered=true
                         style="width: 100%;">
-                    <a-card-meta style="margin-bottom: auto">
-                        <div slot="title" style="height: fit-content;padding: 0 20px">
-                            <h2 style="display:inline;">{{'股票名: ' + item.name + ', 股票代码: ' + item.id}}</h2>
+                    <a-card-grid style="width:100%;textAlign:'center'">
                             <a-divider type="vertical"/>
                             <router-link :to="'/stock/'+ item.id">
                                 <a>查看详情 </a>
                             </router-link>
                             <a-divider type="vertical"/>
                             <a @click="showModal(item.id)">出售股票</a>
-                        </div>
-                    </a-card-meta>
+                    </a-card-grid>
                     <a-card-grid style="width:25%;textAlign:'center'">
                         <p style="font-weight: bolder">数量:{{item.amount}}</p>
                     </a-card-grid>

@@ -55,6 +55,21 @@
                     </a-select-option>
                 </a-select>
             </a-form-item>
+
+
+            <a-form-item
+                    label="资金账户密码"
+                    :label-col="{ span: 5 }"
+                    :wrapper-col="{ span: 12 }"
+                    :validate-status="passwordError() ? 'error' : ''"
+                    :help="passwordError() || ''"
+            >
+                <a-input v-decorator="['password',
+          {rules: [{ required: true, message: '请正确输入资金账户密码'}]}]"
+                />
+            </a-form-item>
+
+
             <a-form-item
                     :wrapper-col="{ span: 12, offset: 5 }"
             >
@@ -96,6 +111,10 @@
                 const {getFieldError, isFieldTouched} = this.form;
                 return isFieldTouched('card_id') && getFieldError('card_id');
             },
+            passwordError() {
+                const {getFieldError, isFieldTouched} = this.form;
+                return isFieldTouched('password') && getFieldError('password');
+            },
             handleSubmit(e) {
                 e.preventDefault();
                 this.form.validateFields((err, values) => {
@@ -107,6 +126,7 @@
                         data.append("stock_id", values.stock_id);
                         data.append("stock_price", values.price);
                         data.append("buy_amount", values.number);
+                        data.append("password",values.password);
                         this.$axios
                             .post("", data)
                             .then(

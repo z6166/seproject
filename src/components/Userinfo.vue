@@ -19,24 +19,6 @@
             <a-button type="primary" @click="change">确认修改</a-button>
             <br/>
         </div>
-
-        <br/>
-        <div style="width: 50%;margin: auto">
-            <a-row :gutter="16">
-                <a-col :span="6">
-                    <a-button type="primary" @click="action(0)">提升会员</a-button>
-                </a-col>
-                <a-col :span="6">
-                    <a-button type="primary" @click="action(1)">挂失</a-button>
-                </a-col>
-                <a-col :span="6">
-                    <a-button type="primary" @click="action(2)">恢复</a-button>
-                </a-col>
-                <a-col :span="6">
-                    <a-button type="primary" @click="action(3)">删除</a-button>
-                </a-col>
-            </a-row>
-        </div>
     </div>
 </template>
 

@@ -1,8 +1,8 @@
 <template>
-    <div class="Login">
+    <div class="Changefundpassword">
         <a-modal
                 :visible="visible"
-                title='登录'
+                title='修改资金账户密码'
                 @cancel="() => { $emit('cancel') }"
                 :footer="null"
         >
@@ -14,35 +14,57 @@
                     @submit="handleSubmit"
                     class="login-form"
             >
+
                 <a-form-item
-                        :validate-status="userNameError() ? 'error' : ''"
-                        :help="userNameError() || ''"
+                        :validate-status="oldpasswordError() ? 'error' : ''"
+                        :help="oldpasswordError() || ''"
                 >
                     <a-input
                             v-decorator="[
-          'username',
-          {rules: [{ required: true, message: 'Please input your username!',min:4,max:20 }]}
+          'oldpassword',
+          {rules: [{ required: true, message: 'Please input your old Password!',min:6,max:20 }]}
         ]"
-                            placeholder="Username"
+                            type="password"
+                            placeholder="请输入旧密码..."
                     >
                         <a-icon
                                 slot="prefix"
-                                type="user"
+                                type="lock"
+                                style="color:rgba(0,0,0,.25)"
+                        />
+                    </a-input>
+                </a-form-item>
+
+                <a-form-item
+                        :validate-status="newpasswordError() ? 'error' : ''"
+                        :help="newpasswordError() || ''"
+                >
+                    <a-input
+                            v-decorator="[
+          'newpassword',
+          {rules: [{ required: true, message: 'Please input your new Password!',min:6,max:20 }]}
+        ]"
+                            type="password"
+                            placeholder="请输入新密码..."
+                    >
+                        <a-icon
+                                slot="prefix"
+                                type="lock"
                                 style="color:rgba(0,0,0,.25)"
                         />
                     </a-input>
                 </a-form-item>
                 <a-form-item
-                        :validate-status="passwordError() ? 'error' : ''"
-                        :help="passwordError() || ''"
+                        :validate-status="againnewpasswordError() ? 'error' : ''"
+                        :help="againnewpasswordError() || ''"
                 >
                     <a-input
                             v-decorator="[
-          'password',
-          {rules: [{ required: true, message: 'Please input your Password!',min:6,max:12 }]}
+          'againnewpassword',
+          {rules: [{ required: true, message: 'Please reinput your new Password!',min:6,max:20 }]}
         ]"
                             type="password"
-                            placeholder="Password"
+                            placeholder="请再输入一次新密码..."
                     >
                         <a-icon
                                 slot="prefix"
@@ -57,7 +79,7 @@
                             html-type="submit"
                             class="login-form-button"
                     >
-                        Log in
+                        提交
                     </a-button>
                 </a-form-item>
             </a-form>
@@ -68,60 +90,53 @@
 <script>
 
     export default {
-        name: "Login",
-        props: ['visible'],
+        name: "Changefundpassword",
+        props: ['visible',"id"],
         data() {
             return {
                 form: this.$form.createForm(this),
             };
         },
-        mounted() {
-            this.$nextTick(() => {
-                // To disabled submit button at the beginning.
-                this.form.validateFields();
-            });
-        },
         methods: {
-            // Only show error after a field is touched.
-            userNameError() {
+            oldpasswordError() {
                 const {getFieldError, isFieldTouched} = this.form;
-                return isFieldTouched('username') && getFieldError('username');
+                return isFieldTouched('oldpassword') && getFieldError('oldpassword');
             },
-            // Only show error after a field is touched.
-            passwordError() {
+            newpasswordError() {
                 const {getFieldError, isFieldTouched} = this.form;
-                return isFieldTouched('password') && getFieldError('password');
+                return isFieldTouched('newpassword') && getFieldError('newpassword');
+            },
+            againnewpasswordError() {
+                const {getFieldError, isFieldTouched} = this.form;
+                return isFieldTouched('againnewpassword') && getFieldError('againnewpassword');
             },
             handleSubmit(e) {
-                this.$cookies.set('perorcom', "0", 100000);
                 e.preventDefault();
                 this.form.validateFields((err, values) => {
                     if (!err) {
                         console.log('Received values of form: ', values);
+                        if(values.newpassword !== values.againnewpassword){
+                            this.$message.error("两次输入的密码必须相同!");
+                            return
+                        }
                         let data = new FormData();
-                        data.append("request", "login");
-                        data.append("name", values.username);
-                        data.append("password", values.password);
+                        data.append("account_id", this.id);
+                        data.append("ori_pass", values.oldpassword);
+                        data.append("new_pass", values.newpassword);
+                        console.log(data.toString());
                         this.$axios
                             .post("",data)
                             .then(
                                 response => {
                                     if (response.data.code === 0) {
-                                        let expireDays = 1000 * 60 * 60 * 24 * 15;
-                                        this.$cookies.set('user_id', response.data.data.user_id, expireDays);
-                                        this.$cookies.set("name", response.data.data.name, expireDays);
-                                        this.$cookies.set("type", response.data.data.type, expireDays);
-                                        this.$message.success("登录成功！");
-                                        if(response.data.data.status === 0){
-                                            this.$message.info("账号已冻结");
-                                        }
-                                        this.$emit("cancel");
-                                        this.$router.push('/');
+                                        this.$message.success("修改成功！");
                                     } else {
                                         this.$message.error(response.data.msg)
                                     }
                                 }
                             )
+                    } else {
+                        this.$message.error("未知错误")
                     }
                 });
             },

@@ -61,37 +61,37 @@
                 </a-form-item>
 
                 <a-form-item label="身份证号码">
-                    <a-input v-decorator="['ID']">
+                    <a-input v-decorator="['ID',{rules: [{ required: true}]}]">
                         <a-icon slot="prefix" type="user"/>
                     </a-input>
                 </a-form-item>
 
                 <a-form-item label="家庭住址">
-                    <a-input v-decorator="['home_address']">
+                    <a-input v-decorator="['home_address',{rules: [{ required: true}]}]">
                         <a-icon slot="prefix" type="user"/>
                     </a-input>
                 </a-form-item>
 
                 <a-form-item label="职业">
-                    <a-input v-decorator="['job']">
+                    <a-input v-decorator="['job',{rules: [{ required: true}]}]">
                         <a-icon slot="prefix" type="user"/>
                     </a-input>
                 </a-form-item>
 
                 <a-form-item label="学历">
-                    <a-input v-decorator="['education_background']">
+                    <a-input v-decorator="['education_background',{rules: [{ required: true}]}]">
                         <a-icon slot="prefix" type="user"/>
                     </a-input>
                 </a-form-item>
 
                 <a-form-item label="工作单位">
-                    <a-input v-decorator="['company_address']">
+                    <a-input v-decorator="['company_address',{rules: [{ required: true}]}]">
                         <a-icon slot="prefix" type="user"/>
                     </a-input>
                 </a-form-item>
 
                 <a-form-item label="联系电话">
-                    <a-input v-decorator="['phone']">
+                    <a-input v-decorator="['phone',{rules: [{ required: true}]}]">
                         <a-icon slot="prefix" type="user"/>
                     </a-input>
                 </a-form-item>

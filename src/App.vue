@@ -38,7 +38,7 @@
                             <a v-if="!this.$cookies.isKey('user_id')" @click="showModal(1)">个人用户注册</a>
                         </a-menu-item>
 
-                        <a-menu-item v-if="!this.$cookies.isKey('user_id')" key="3">
+                        <a-menu-item v-if="!this.$cookies.isKey('user_id')" key="4">
                             <a v-if="!this.$cookies.isKey('user_id')" @click="showModal(2)">企业用户注册</a>
                         </a-menu-item>
 

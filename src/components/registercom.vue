@@ -59,31 +59,31 @@
                 </a-form-item>
 
                 <a-form-item label="营业执照号码">
-                    <a-input v-decorator="['license_number']">
+                    <a-input v-decorator="['license_number',{rules: [{ required: true}]}]">
                         <a-icon slot="prefix" type="user"/>
                     </a-input>
                 </a-form-item>
 
                 <a-form-item label="法人身份证号">
-                    <a-input v-decorator="['representative_ID']">
+                    <a-input v-decorator="['representative_ID',{rules: [{ required: true}]}]">
                         <a-icon slot="prefix" type="user"/>
                     </a-input>
                 </a-form-item>
 
                 <a-form-item label="法人姓名">
-                    <a-input v-decorator="['representative_name']">
+                    <a-input v-decorator="['representative_name',{rules: [{ required: true}]}]">
                         <a-icon slot="prefix" type="user"/>
                     </a-input>
                 </a-form-item>
 
                 <a-form-item label="法人联系电话">
-                    <a-input v-decorator="['representative_phone']">
+                    <a-input v-decorator="['representative_phone',{rules: [{ required: true}]}]">
                         <a-icon slot="prefix" type="user"/>
                     </a-input>
                 </a-form-item>
 
                 <a-form-item label="法人联系地址">
-                    <a-input v-decorator="['representative_address']">
+                    <a-input v-decorator="['representative_address',{rules: [{ required: true}]}]">
                         <a-icon slot="prefix" type="user"/>
                     </a-input>
                 </a-form-item>

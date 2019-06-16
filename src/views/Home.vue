@@ -1,7 +1,7 @@
 <template>
   <div class="Home" :style="contentStyleObj">
         <a-card>
-          <div id="kline" style="width: 100%"/>
+          <div id="kline" style="width: 100%;height: auto"></div>
           <a-card-meta
                   title="K线图">
           </a-card-meta>
