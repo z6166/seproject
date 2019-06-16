@@ -8,22 +8,52 @@
                     label="股票代码"
                     :label-col="{ span: 5 }"
                     :wrapper-col="{ span: 12 }"
+                    :validate-status="stock_idError() ? 'error' : ''"
+                    :help="stock_idError() || ''"
             >
-                <a-input v-model="stock_id"/>
+                <a-input
+                        v-decorator="['stock_id',
+          {rules: [{ required: true, message: '请正确输入股票id'}]}]"
+                />
             </a-form-item>
             <a-form-item
                     label="购入股数"
                     :label-col="{ span: 5 }"
                     :wrapper-col="{ span: 12 }"
+                    :validate-status="numberError() ? 'error' : ''"
+                    :help="numberError() || ''"
             >
-                <a-input v-model="number"/>
+                <a-input
+                        v-decorator="['number',
+          {rules: [{ required: true, message: '请正确输入购入数量'}]}]"
+                />
             </a-form-item>
             <a-form-item
                     label="单价"
                     :label-col="{ span: 5 }"
                     :wrapper-col="{ span: 12 }"
+                    :validate-status="priceError() ? 'error' : ''"
+                    :help="priceError() || ''"
             >
-                <a-input v-model="price"/>
+                <a-input v-decorator="['price',
+          {rules: [{ required: true, message: '请正确输入单价'}]}]"
+                />
+            </a-form-item>
+            <a-form-item
+                    label="资金账户"
+                    :label-col="{ span: 5 }"
+                    :wrapper-col="{ span: 12 }"
+                    :validate-status="card_idError() ? 'error' : ''"
+                    :help="card_idError() || ''"
+            >
+                <a-select @focus="init" notFoundContent="未找到资金账户"
+                          v-decorator="['card_id',
+          {rules: [{ required: true}]}]"
+                >
+                    <a-select-option v-for="(item,index) in data" :key="index" :value="item.id">
+                        {{item.id}} 当前剩余资金:{{item.available}}
+                    </a-select-option>
+                </a-select>
             </a-form-item>
             <a-form-item
                     :wrapper-col="{ span: 12, offset: 5 }"
@@ -40,21 +70,71 @@
         props: ["stockid"],
         data() {
             return {
-                stock_id: this.stockid,
-                number: null,
-                price: null,
+                data: [],
                 form: this.$form.createForm(this),
             }
         },
-        watch: {
-            stockid() {
-                this.stock_id = this.stockid;
-            }
+        mounted(){
+            this.form.setFieldsValue({
+                stock_id:this.$props.stockid,
+            })
         },
         methods: {
-            handleSubmit() {
-                console.log(this.stock_id);
-            }
+            stock_idError() {
+                const {getFieldError, isFieldTouched} = this.form;
+                return isFieldTouched('stock_id') && getFieldError('stock_id');
+            },
+            numberError() {
+                const {getFieldError, isFieldTouched} = this.form;
+                return isFieldTouched('number') && getFieldError('number');
+            },
+            priceError() {
+                const {getFieldError, isFieldTouched} = this.form;
+                return isFieldTouched('price') && getFieldError('price');
+            },
+            card_idError() {
+                const {getFieldError, isFieldTouched} = this.form;
+                return isFieldTouched('card_id') && getFieldError('card_id');
+            },
+            handleSubmit(e) {
+                e.preventDefault();
+                this.form.validateFields((err, values) => {
+                    if (!err) {
+                        console.log('Received values of form: ', values);
+                        let data = new FormData();
+                        data.append("user_id", this.$cookies.get("user_id"));
+                        data.append("card_id", values.card_id);
+                        data.append("stock_id", values.stock_id);
+                        data.append("stock_price", values.price);
+                        data.append("buy_amount", values.number);
+                        this.$axios
+                            .post("", data)
+                            .then(
+                                response => {
+                                    if (response.data.code === 0) {
+                                        this.$message.success("购买成功！");
+                                        this.$router.push('/');
+                                    } else {
+                                        this.$message.error(response.data.msg)
+                                    }
+                                }
+                            )
+                    }
+                });
+            },
+            init() {
+                this.$axios
+                    .get("http://localhost:8080/json/fundinfo.json")
+                    .then(
+                        response => {
+                            if (response.data.code === 0) {
+                                this.data = response.data.data.fund;
+                            } else {
+                                this.$message.error(response.data.msg);
+                            }
+                        }
+                    )
+            },
 
         }
     }

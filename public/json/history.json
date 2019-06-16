@@ -1,0 +1,23 @@
+{
+  "code": 0,
+  "data":{
+      "history": [{
+        "order_id":"002",
+        "type":"0",
+        "state":"-1",
+        "stock_name":"abc",
+        "stock_id":"123",
+        "price":"123",
+        "amount":"100"
+      },
+      {
+        "order_id":"002",
+        "type":"1",
+        "state":"0",
+        "stock_name":"abc",
+        "stock_id":"123",
+        "price":"123",
+        "amount":"100"
+      }]
+  }
+}

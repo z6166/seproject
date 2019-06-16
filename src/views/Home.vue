@@ -1,20 +1,12 @@
 <template>
-  <div class="Home">
-    <a-row  type="flex" justify="center" align="top">
-      <a-col :span="11">
+  <div class="Home" :style="contentStyleObj">
         <a-card>
           <img slot="cover" src="../assets/kline.jpg" alt="K线图"/>
           <a-card-meta
                   title="K线图">
           </a-card-meta>
         </a-card>
-      </a-col>
-      <a-col :span="2">
-      </a-col>
-      <a-col :span="11">
-        <Search style="padding-top: 20px"/>
-      </a-col>
-    </a-row>
+        <Search :canbuy="0" style="padding-top: 20px"/>
   </div>
 </template>
 
@@ -26,6 +18,19 @@ export default {
   name: 'home',
   components: {
     Search
-  }
+  },
+  data(){
+    return{
+      contentStyleObj: {
+        width: '',
+        "margin": "auto",
+        "padding-top": "40px",
+        "padding-bottom": "40px"
+      },
+    }
+  },
+  created() {
+    this.contentStyleObj.width = window.screen.width / 2 - 200 + 'px';
+  },
 }
 </script>

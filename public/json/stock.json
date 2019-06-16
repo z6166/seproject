@@ -1,0 +1,19 @@
+{
+  "code": 0,
+  "data":
+  {
+    "name":"abcd",
+    "id":"12345",
+    "price_now":"133.45",
+    "highest_buy_order":"132.123",
+    "lowest_sell_order":"155.123",
+    "highest_price_today":"164.2",
+    "lowest_price_today":"145.2",
+    "highest_price_week":"175.3",
+    "lowest_price_week":"133.2",
+    "highest_price_month":"200",
+    "lowest_price_month":"20",
+    "k_url":"",
+    "important_announcement":"asdvasd"
+  }
+}

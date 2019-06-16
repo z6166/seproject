@@ -1,13 +1,36 @@
 <template>
-    <div class="Userinfo">
-        <a-avatar :size="128" :src="this.face"/>
+    <div class="Userinfo" style="text-align: center">
+        <div v-for="(value,key) in info[$cookies.get('perorcom')]" :key="key">
+            <div v-if="!edit[key]">
+                <p style="display:inline;">{{infotoname[key]}}:{{value}}</p>
+                <a-icon @click="editname(key,value)" type="edit"/>
+            </div>
+            <div v-else>
+                <a-input v-model="newcontent" @pressEnter="newnameevent(key)" style="width: 20%">
+                    <a-icon slot="suffix" @click="newnameevent(key)" style="color: green" type="check" />
+                    <a-icon slot="suffix" @click="cancelnewname" style="color: red;" type="close" />
+                </a-input>
+            </div>
+        </div>
         <br/>
+        <a-button v-if="flag" type="primary" @click="change">确认修改</a-button>
         <br/>
-        <p>用户名：{{ this.username }}</p>
-        <br/>
-        <p>用户id：{{ this.userid }}</p>
-        <br/>
-        <p>资金：{{ this.money }}</p>
+        <div style="width: 50%;margin: auto">
+            <a-row :gutter="16">
+                <a-col :span="6">
+                    <a-button type="primary" @click="action(0)">提升会员</a-button>
+                </a-col>
+                <a-col :span="6">
+                    <a-button type="primary" @click="action(1)">挂失</a-button>
+                </a-col>
+                <a-col :span="6">
+                    <a-button type="primary" @click="action(2)">恢复</a-button>
+                </a-col>
+                <a-col :span="6">
+                    <a-button type="primary" @click="action(3)">删除</a-button>
+                </a-col>
+            </a-row>
+        </div>
     </div>
 </template>
 
@@ -16,33 +39,146 @@
         name: "Userinfo",
         data() {
             return {
-                userid:null,
-                username:null,
-                face:null,
-                money:null
+                flag:false,
+                newcontent:"",
+                userid: null,
+                username: null,
+                face: null,
+                money: null,
+                edit: {},
+                actions: [
+                    "raise",
+                    "suspend",
+                    "reapply",
+                    "cancel",
+                ],
+                info: [
+                    {
+                        "date": "",
+                        "name": "",
+                        "ID": "",
+                        "home_address": "",
+                        "job": "",
+                        "education_background": "",
+                        "company_address": "",
+                        "phone": "",
+                        "agent_ID": ""
+                    },
+                    {
+                        "corporate_number": "",
+                        "license_number": "",
+                        "representative_ID": "",
+                        "representative_name": "",
+                        "representative_phone": "",
+                        "representative_address": "",
+                        "operator_name": "",
+                        "operator_ID": "",
+                        "operator_phone": "",
+                        "operator_address": ""
+                    }
+                ],
+                infotoname:
+                    {
+                        "date": "创建日期",
+                        "name": "姓名",
+                        "ID": "身份证",
+                        "home_address": "家庭地址",
+                        "job": "职业",
+                        "education_background": "教育背景",
+                        "company_address": "公司地址",
+                        "phone": "电话",
+                        "agent_ID": "授权人ID",
+                        "corporate_number": "",
+                        "license_number": "",
+                        "representative_ID": "",
+                        "representative_name": "",
+                        "representative_phone": "",
+                        "representative_address": "",
+                        "operator_name": "",
+                        "operator_ID": "",
+                        "operator_phone": "",
+                        "operator_address": ""
+                    }
             }
         },
         mounted() {
-            this.getuserinfo();
+            this.init();
         },
         methods: {
-            getuserinfo() {
-                this.$http
+            newnameevent(id){
+                this.$set(this.info[this.$cookies.get("perorcom")],id,this.newcontent);
+                this.cancelnewname();
+            },
+            cancelnewname(){
+                for(var key in this.edit){
+                    this.$set(this.edit,key,false);
+                }
+            },
+            editname(id,value) {
+                this.flag = true;
+                this.newcontent = value;
+                for(var key in this.edit){
+                    console.log(key);
+                    this.$set(this.edit,key,false);
+                }
+                this.$set(this.edit,id,true);
+            },
+            action(id) {
+                let data = new FormData();
+                data.append("user_id", this.$cookies.get("user_id"));
+                data.append("request", this.actions[id]);
+                this.$axios
+                    .post("", data)
+                    .then(
+                        response => {
+                            if (response.data.code === 0) {
+                                this.$message.success("操作成功！");
+                            } else {
+                                this.$message.error(response.data.msg)
+                            }
+                        }
+                    )
+            },
+            change(){
+                let data = new FormData();
+                data.append("request", "change");
+                data.append("user_id", this.$cookies.get("user_id"));
+                data.append("info",JSON.stringify(this.info[this.$cookies.get("perorcom")]));
+                this.$axios
+                    .post("", data)
+                    .then(
+                        response => {
+                            if (response.data.code === 0) {
+                                this.$message.success("修改成功！");
+                            } else {
+                                this.$message.error(response.data.msg)
+                            }
+                        }
+                    )
+            },
+            init() {
+                /*
+                ,{
+                        params:{
+                            "name":this.$cookies.get("name"),
+                            "user_id":this.$cookies.get("user_id")
+                        }
+                    }
+                 */
+                this.$axios
                     .get("http://localhost:8080/json/userinfo.json")
                     .then(
                         response => {
-                            console.log(response.data.data);
                             if (response.data.code === 0) {
-                                this.userid = response.data.data.userid;
-                                this.username = response.data.data.username;
-                                this.face = response.data.data.face;
-                                this.money = response.data.data.money;
+                                for (var key in response.data.data) {
+                                    this.info[this.$cookies.get("perorcom")][key] = response.data.data[key]
+                                }
+                                console.log(this.info[this.$cookies.get("perorcom")])
                             } else {
                                 this.$message.error("获取用户信息失败!");
                             }
                         }
                     );
-                console.log(this.face);
             }
         }
     }

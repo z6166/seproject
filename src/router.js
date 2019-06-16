@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import About from './views/About.vue'
 import User from './views/User'
-import Search from './components/Search'
+import Stock from './views/Stock'
 
 Vue.use(Router)
 
@@ -25,6 +25,11 @@ export default new Router({
       path: '/user',
       name: 'user',
       component:User
-    }
+    },
+    {
+      path: '/stock/:id',
+      name: 'Stock',
+      component: Stock
+    },
   ]
 })

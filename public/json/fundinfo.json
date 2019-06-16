@@ -1,0 +1,32 @@
+{
+  "code": 0,
+  "data":{
+    "fund": [
+      {
+        "id": "1",
+        "available":"999",
+        "frozen":"120"
+      },
+      {
+        "id": "2",
+        "available":"999",
+        "frozen":"120"
+      },
+      {
+        "id": "3",
+        "available":"999",
+        "frozen":"120"
+      },
+      {
+        "id": "4",
+        "available":"999",
+        "frozen":"120"
+      },
+      {
+        "id": "5",
+        "available":"999",
+        "frozen":"120"
+      }
+    ]
+  }
+}
