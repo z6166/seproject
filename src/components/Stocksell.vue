@@ -20,7 +20,7 @@
                         :validate-status="stock_idError() ? 'error' : ''"
                         :help="stock_idError() || ''"
                 >
-                    <a-input
+                    <a-input disabled="true"
                             v-decorator="['stock_id',
           {rules: [{ required: true}]}]"
                     />

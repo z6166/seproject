@@ -5,14 +5,35 @@
                 :dataSource="data"
         >
             <a-list-item slot="renderItem" slot-scope="item, index">
-                <a-card :title="'ID: ' + item.order_id" style="width: 100%">
-                    <p>类型:{{type[parseInt(item.type)]}}</p>
-                    <p>状态:{{state[parseInt(item.state)+1]}}</p>
-                    <p>股票名称:{{item.stock_name}}</p>
-                    <p>股票ID:{{item.stock_id}}</p>
-                    <p>交易价格:{{item.price}}</p>
-                    <p>交易数量:{{item.amount}}</p>
-                    <a-button type="primary" v-if="item.state === '0'" @click="cancel(item.order_id)">撤回该指令</a-button>
+                <a-card
+                        :bordered=true
+                        :title="'ID: ' + item.order_id"
+                        style="width: 100%;">
+                    <a-card-grid style="width:25%;textAlign:'center'">
+                        <p style="font-weight: bolder">类型:{{type[parseInt(item.type)]}}</p>
+                    </a-card-grid>
+                    <a-card-grid style="width:25%;textAlign:'center'">
+                        <p style="font-weight: bolder">状态:{{state[parseInt(item.state)+1]}}</p>
+                    </a-card-grid>
+                    <a-card-grid style="width:25%;textAlign:'center'">
+                        <p style="font-weight: bolder">股票名称:{{item.stock_name}}</p>
+                    </a-card-grid>
+                    <a-card-grid style="width:25%;textAlign:'center'">
+                        <p style="font-weight: bolder">股票ID:{{item.stock_id}}</p>
+                    </a-card-grid>
+                    <a-card-grid style="width:25%;textAlign:'center'">
+                        <p style="font-weight: bolder">交易价格:{{item.price}}</p>
+                    </a-card-grid>
+                    <a-card-grid style="width:25%;textAlign:'center'">
+                        <p style="font-weight: bolder">交易数量:{{item.amount}}</p>
+                    </a-card-grid>
+                    <a-card-grid style="width:25%;textAlign:'center'">
+                        <p style="font-weight: bolder">股票名称:{{item.stock_name}}</p>
+                    </a-card-grid>
+                    <a-card-grid style="width:25%;textAlign:'center'">
+                        <a-button type="primary" v-if="item.state === '0'" @click="cancel(item.order_id)">撤回该指令</a-button>
+                    </a-card-grid>
+
                 </a-card>
             </a-list-item>
         </a-list>
