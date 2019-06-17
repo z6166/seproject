@@ -14,14 +14,6 @@
                         :title="'股票名: ' + item.name + ', 股票代码: ' + item.id"
                         :bordered=true
                         style="width: 100%;">
-                    <a-card-grid style="width:100%;textAlign:'center'">
-                            <a-divider type="vertical"/>
-                            <router-link :to="'/stock/'+ item.id">
-                                <a>查看详情 </a>
-                            </router-link>
-                            <a-divider type="vertical"/>
-                            <a @click="showModal(item.id)">出售股票</a>
-                    </a-card-grid>
                     <a-card-grid style="width:25%;textAlign:'center'">
                         <p style="font-weight: bolder">数量:{{item.amount}}</p>
                     </a-card-grid>
@@ -33,6 +25,14 @@
                     </a-card-grid>
                     <a-card-grid style="width:25%;textAlign:'center'">
                         <p style="font-weight: bolder">收益:{{item.benifit}}</p>
+                    </a-card-grid>
+                    <a-card-grid style="width:100%;textAlign:'center'">
+                        <a-divider type="vertical"/>
+                        <router-link :to="'/stock/'+ item.id">
+                            <a-button type="primary">查看详情</a-button>
+                        </router-link>
+                        <a-divider type="vertical"/>
+                        <a-button type="primary" @click="showModal(item.id)">出售股票</a-button>
                     </a-card-grid>
                 </a-card>
             </a-list-item>

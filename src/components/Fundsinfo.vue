@@ -40,18 +40,18 @@
         >
             <a-list-item slot="renderItem" slot-scope="item, index">
                 <a-card :bordered=true :title="'ID: ' + item.id" style="width: 100%;">
+                    <a-card-grid style="width:50%;textAlign:'center'">
+                        <p style="font-weight: bolder">当前可用资金: {{ item.available }}</p>
+                    </a-card-grid>
+                    <a-card-grid style="width:50%;textAlign:'center'">
+                        <p style="font-weight: bolder">当前冻结资金: {{ item.frozen }}</p>
+                    </a-card-grid>
                     <a-card-grid style="width:100%;textAlign:'center'">
                         <a-button type="primary" @click="showModal(0,item.id)">修改资金账户密码</a-button>
                         <a-divider type="vertical"/>
                         <a-button type="danger" @click="showModal(2,item.id)">挂失</a-button>
                         <a-divider type="vertical"/>
                         <a-button type="danger" @click="showModal(1,item.id)">注销账户</a-button>
-                    </a-card-grid>
-                    <a-card-grid style="width:50%;textAlign:'center'">
-                        <p style="font-weight: bolder">当前可用资金: {{ item.available }}</p>
-                    </a-card-grid>
-                    <a-card-grid style="width:50%;textAlign:'center'">
-                        <p style="font-weight: bolder">当前冻结资金: {{ item.frozen }}</p>
                     </a-card-grid>
                 </a-card>
             </a-list-item>
