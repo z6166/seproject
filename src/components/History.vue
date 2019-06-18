@@ -85,12 +85,10 @@
             init() {
 
                 /*
+                let data = new FormData();
+                data.append("user_id", this.$cookies.get("user_id"));
                 this.$axios
-                    .get("",{
-                        params:{
-                            "user_id":this.$cookies.get("user_id")
-                        }
-                    })
+                    .poast(this.baseurl + "/api/recent_ops",data)
                     .then(
                         response => {
                             if (response.data.code === 0) {

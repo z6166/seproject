@@ -62,7 +62,7 @@
             init() {
                 /*
                 this.$axios
-                    .get("",{
+                    .get(this.baseurl + "/api/stock_detail",{
                         params:{
                             "id":this.$route.params.id
                         }

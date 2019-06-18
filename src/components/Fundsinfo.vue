@@ -147,7 +147,7 @@
             init() {
                 /*
                 this.$axios
-                    .get("",{
+                    .get(this.baseurl + "/api/fund",{
                         params:{
                             "user_id":this.$cookies.get("user_id")
                         }

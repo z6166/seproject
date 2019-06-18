@@ -98,13 +98,11 @@
             },
             tosearch() {
                 /*
+                let data = new FormData();
+                data.append("type", this.searchselect);
+                data.append("entity", this.searchcontent);
                 this.$axios
-                    .get("",{
-                        params:{
-                            "type":this.searchselect,
-                            "entity":this.searchcontent
-                        }
-                    })
+                    .post("",data)
                     .then(
                         response => {
                             if (response.data.code === 0) {

@@ -118,7 +118,7 @@
                         data.append("buy_amount", values.number);
                         data.append("password",values.password);
                         this.$axios
-                            .post("", data)
+                            .post(this.baseurl + "/api/sell", data)
                             .then(
                                 response => {
                                     if (response.data.code === 0) {

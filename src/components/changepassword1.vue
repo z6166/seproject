@@ -104,7 +104,7 @@
                         data.append("user_id", this.$cookies.get("user_id"));
                         data.append("password", values.newpassword);
                         this.$axios
-                            .post("",data)
+                            .post(this.baseurl + "/api/change_pass",data)
                             .then(
                                 response => {
                                     if (response.data.code === 0) {

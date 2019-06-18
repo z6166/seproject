@@ -15,5 +15,6 @@ export default{
                 (d.getHours()) + ":" +
                 (d.getMinutes())
         };
+        Vue.prototype.baseurl = "localhost";
     }
 }
