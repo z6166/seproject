@@ -42,6 +42,10 @@
                             <a v-if="!this.$cookies.isKey('user_id')" @click="showModal(2)">企业用户注册</a>
                         </a-menu-item>
 
+                        <a-menu-item v-if="!this.$cookies.isKey('user_id')" key="5">
+                            <router-link to="/admin" style="color: rgba(0, 0, 0, 0.65)">管理员界面</router-link>
+                        </a-menu-item>
+
                     </a-menu>
                 </a-dropdown>
             </a-menu>

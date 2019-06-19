@@ -101,6 +101,7 @@
                     this.$message.error("密码不能为空！")
                 }
                 let data = new FormData();
+                data.append("user_id",this.$cookies.get("user_id"));
                 data.append("password", this.password);
                 this.$axios
                     .post("", data)

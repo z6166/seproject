@@ -4,8 +4,9 @@ import Home from './views/Home.vue'
 import About from './views/About.vue'
 import User from './views/User'
 import Stock from './views/Stock'
+import Admin from './views/admin'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
@@ -25,6 +26,11 @@ export default new Router({
       path: '/user',
       name: 'user',
       component:User
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component:Admin
     },
     {
       path: '/stock/:id',

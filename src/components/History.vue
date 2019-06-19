@@ -28,9 +28,6 @@
                         <p style="font-weight: bolder">交易数量:{{item.amount}}</p>
                     </a-card-grid>
                     <a-card-grid style="width:25%;textAlign:'center'">
-                        <p style="font-weight: bolder">股票名称:{{item.stock_name}}</p>
-                    </a-card-grid>
-                    <a-card-grid style="width:25%;textAlign:'center'">
                         <a-button type="primary" v-if="item.state === '0'" @click="cancel(item.order_id)">撤回该指令</a-button>
                     </a-card-grid>
 

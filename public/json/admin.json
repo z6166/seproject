@@ -1,0 +1,19 @@
+{
+  "code": 0,
+  "data": {
+    "userdata": [
+      {
+        "uid": "123456",
+        "user_id": "3",
+        "username": "zhangshijie",
+        "type": "0"
+      },
+      {
+        "uid": "12345",
+        "user_id": "4",
+        "username": "测试",
+        "type": "1"
+      }
+    ]
+  }
+}
