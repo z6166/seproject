@@ -52,10 +52,6 @@
         dataIndex: 'lowest_price_today',
         key: 'lowest_price_today',
     }, {
-        title: 'K线图',
-        dataIndex: 'k_url',
-        key: 'k_url',
-    }, {
         title: '操作',
         dataIndex: 'action',
         key: 'action',
@@ -97,34 +93,16 @@
                 this.$emit('changeview',data);
             },
             tosearch() {
-                /*
                 let data = new FormData();
                 data.append("type", this.searchselect);
                 data.append("entity", this.searchcontent);
                 this.$axios
-                    .post("",data)
+                    .post(this.baseurl + "/api/search_stock_ambiguous",data)
                     .then(
                         response => {
-                            if (response.data.code === 0) {
-                                this.Searchresult = response.data.data.stock
-                            } else {
-                                this.$message.error(response.data.msg)
-                            }
+                                this.Searchresult = response.data.stock
                         }
                     );
-                */
-
-                this.$axios
-                    .get("http://localhost:8080/json/info.json").then(
-                    response => {
-                        console.log(response.data);
-                        if (response.data.code === 0) {
-                            this.Searchresult = response.data.data.stock
-                        } else {
-                            this.$message.error(response.data.msg)
-                        }
-                    }
-                );
             },
         }
     };

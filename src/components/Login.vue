@@ -93,7 +93,6 @@
                 return isFieldTouched('password') && getFieldError('password');
             },
             handleSubmit(e) {
-                this.$cookies.set('perorcom', "0", 100000);
                 e.preventDefault();
                 this.form.validateFields((err, values) => {
                     if (!err) {
@@ -111,6 +110,7 @@
                                         this.$cookies.set('user_id', response.data.data.user_id, expireDays);
                                         this.$cookies.set("name", response.data.data.name, expireDays);
                                         this.$cookies.set("type", response.data.data.type, expireDays);
+                                        this.$cookies.set("acc_type", response.data.data.acc_type, expireDays);
                                         this.$message.success("登录成功！");
                                         if(response.data.data.status === 0){
                                             this.$message.info("账号已冻结");

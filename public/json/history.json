@@ -2,22 +2,30 @@
   "code": 0,
   "data":{
       "history": [{
-        "order_id":"002",
-        "type":"0",
-        "state":"-1",
+        "account_id": 1,
+        "type": 0,
+        "sell_id":"001",
+        "status":"waiting",
         "stock_name":"abc",
         "stock_id":"123",
         "price":"123",
-        "amount":"100"
+        "amount":"100",
+        "data": "2019-6-19",
+        "time": "19:16",
+        "reset": 10
       },
-      {
-        "order_id":"002",
-        "type":"1",
-        "state":"0",
-        "stock_name":"abc",
-        "stock_id":"123",
-        "price":"123",
-        "amount":"100"
-      }]
+        {
+          "account_id": 2,
+          "type": 1,
+          "sell_id":"002",
+          "status":"waiting",
+          "stock_name":"abc",
+          "stock_id":"123",
+          "price":"123",
+          "amount":"100",
+          "data": "2019-6-19",
+          "time": "19:16",
+          "reset": 10
+        }]
   }
 }

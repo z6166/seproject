@@ -111,7 +111,6 @@
                     if (!err) {
                         console.log('Received values of form: ', values);
                         let data = new FormData();
-                        data.append("user_id", this.$cookies.get("user_id"));
                         data.append("card_id", values.card_id);
                         data.append("stock_id", values.stock_id);
                         data.append("stock_price", values.price);
@@ -134,11 +133,15 @@
             },
             init() {
                 this.$axios
-                    .get("http://localhost:8080/json/fundinfo.json")
+                    .get(this.baseurl + "/api/get_all_capital",{
+                        params:{
+                            "user_id":this.$cookies.get("user_id")
+                        }
+                    })
                     .then(
                         response => {
                             if (response.data.code === 0) {
-                                this.data = response.data.data.fund;
+                                this.data = response.data.data;
                             } else {
                                 this.$message.error(response.data.msg);
                             }

@@ -11,28 +11,26 @@
         >
             <a-list-item slot="renderItem" slot-scope="item, index">
                 <a-card
-                        :title="'股票名: ' + item.name + ', 股票代码: ' + item.id"
+                        :title="'股票名: ' + item.stock_name + ', 股票代码: ' + item.stock_id"
                         :bordered=true
                         style="width: 100%;">
-                    <a-card-grid style="width:25%;textAlign:'center'">
-                        <p style="font-weight: bolder">数量:{{item.amount}}</p>
+                    <a-card-grid style="width:50%;textAlign:'center'">
+                        <p style="font-weight: bolder">数量:{{item.num}}</p>
                     </a-card-grid>
-                    <a-card-grid style="width:25%;textAlign:'center'">
-                        <p style="font-weight: bolder">当前价格:{{item.current_price}}</p>
+                    <a-card-grid style="width:50%;textAlign:'center'">
+                        <p style="font-weight: bolder">冻结数量:{{item.freeze_num}}</p>
                     </a-card-grid>
-                    <a-card-grid style="width:25%;textAlign:'center'">
-                        <p style="font-weight: bolder">花费:{{item.cost}}</p>
-                    </a-card-grid>
-                    <a-card-grid style="width:25%;textAlign:'center'">
-                        <p style="font-weight: bolder">收益:{{item.benifit}}</p>
+                    <a-card-grid style="width:50%;textAlign:'center'">
+                        <p v-if="item.type === '0'" style="font-weight: bolder">指令类型:购买</p>
+                        <p v-else style="font-weight: bolder">指令类型:出售</p>
                     </a-card-grid>
                     <a-card-grid style="width:100%;textAlign:'center'">
                         <a-divider type="vertical"/>
-                        <router-link :to="'/stock/'+ item.id">
+                        <router-link :to="'/stock/'+ item.stock_id">
                             <a-button type="primary">查看详情</a-button>
                         </router-link>
                         <a-divider type="vertical"/>
-                        <a-button type="primary" @click="showModal(item.id)">出售股票</a-button>
+                        <a-button type="primary" @click="showModal(item.stock_id)">出售股票</a-button>
                     </a-card-grid>
                 </a-card>
             </a-list-item>
@@ -65,6 +63,32 @@
                 this.isshow = false
             },
             init() {
+
+                this.$axios
+                    .get("http://localhost:8080/json/fundinfo.json")
+                    .then(
+                        response => {
+                            if (response.data.code === 0) {
+                                this.fund = response.data.data.fund;
+                                console.log(this.fund);
+                                let data = new FormData();
+                                data.append("account_id", JSON.stringify(this.fund));
+                                this.$axios
+                                    .post(this.baseurl + "/api/get_account_stock",data)
+                                    .then(
+                                        response => {
+                                            if (response.data.code === 0) {
+                                                this.data = response.data.data.stock;
+                                            } else {
+                                                this.$message.error(response.data.msg);
+                                            }
+                                        }
+                                    );
+                            } else {
+                                this.$message.error(response.data.msg);
+                            }
+                        }
+                    );
 
                 /*
                 this.$axios

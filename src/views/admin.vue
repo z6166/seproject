@@ -75,6 +75,7 @@
           this.init();
         },
         methods: {
+            // /api/raise /api/suspend /api/cancel
             action(id,user_id) {
                 let data = new FormData();
                 data.append("user_id",user_id);

@@ -60,13 +60,10 @@
         },
         methods: {
             init() {
-                /*
+                let data = new FormData();
+                data.append("id",this.$route.params.id);
                 this.$axios
-                    .get(this.baseurl + "/api/stock_detail",{
-                        params:{
-                            "id":this.$route.params.id
-                        }
-                    })
+                    .post(this.baseurl + "/api/search_stock_accurate",data)
                     .then(
                         response => {
                             if (response.data.code === 0) {
@@ -87,33 +84,7 @@
                                 this.$message.error(response.data.msg);
                             }
                         }
-                    )
-                    */
-
-
-                this.$axios
-                    .get("http://localhost:8080/json/stock.json")
-                    .then(
-                        response => {
-                            if (response.data.code === 0) {
-                                this.name = response.data.data.name;
-                                this.id = response.data.data.id;
-                                this.price_now = response.data.data.price_now;
-                                this.highest_buy_order = response.data.data.highest_buy_order;
-                                this.lowest_sell_order = response.data.data.lowest_sell_order;
-                                this.highest_price_today = response.data.data.highest_price_today;
-                                this.lowest_price_today = response.data.data.lowest_price_today;
-                                this.highest_price_week = response.data.data.highest_price_week;
-                                this.lowest_price_week = response.data.data.lowest_price_week;
-                                this.highest_price_month = response.data.data.highest_price_month;
-                                this.lowest_price_month = response.data.data.lowest_price_month;
-                                this.k_url = response.data.data.k_url;
-                                this.important_announcement = response.data.data.important_announcement;
-                            } else {
-                                this.$message.error(response.data.msg);
-                            }
-                        }
-                    )
+                    );
             }
         }
     }

@@ -20,7 +20,7 @@
                         :validate-status="stock_idError() ? 'error' : ''"
                         :help="stock_idError() || ''"
                 >
-                    <a-input disabled="true"
+                    <a-input
                             v-decorator="['stock_id',
           {rules: [{ required: true}]}]"
                     />
@@ -65,6 +65,17 @@
                     </a-select>
                 </a-form-item>
                 <a-form-item
+                        label="资金账户密码"
+                        :label-col="{ span: 5 }"
+                        :wrapper-col="{ span: 12 }"
+                        :validate-status="passwordError() ? 'error' : ''"
+                        :help="passwordError() || ''"
+                >
+                    <a-input v-decorator="['password',
+          {rules: [{ required: true, message: '请正确输入资金账户密码'}]}]"
+                    />
+                </a-form-item>
+                <a-form-item
                         :wrapper-col="{ span: 12, offset: 5 }"
                 >
                     <a-button @click="handleSubmit">确定</a-button>
@@ -92,6 +103,10 @@
             });
         },
         methods: {
+            passwordError() {
+                const {getFieldError, isFieldTouched} = this.form;
+                return isFieldTouched('password') && getFieldError('password');
+            },
             stock_idError() {
                 const {getFieldError, isFieldTouched} = this.form;
                 return isFieldTouched('stock_id') && getFieldError('stock_id');
@@ -119,8 +134,9 @@
                         data.append("stock_id", values.stock_id);
                         data.append("stock_price", values.price);
                         data.append("buy_amount", values.number);
+                        data.append("password",values.password);
                         this.$axios
-                            .post("", data)
+                            .post(this.baseurl + "/api/sell", data)
                             .then(
                                 response => {
                                     if (response.data.code === 0) {
@@ -136,11 +152,15 @@
             },
             init() {
                 this.$axios
-                    .get("http://localhost:8080/json/fundinfo.json")
+                    .get(this.baseurl + "/api/get_all_capital",{
+                        params:{
+                            "user_id":this.$cookies.get("user_id")
+                        }
+                    })
                     .then(
                         response => {
                             if (response.data.code === 0) {
-                                this.data = response.data.data.fund;
+                                this.data = response.data.data;
                             } else {
                                 this.$message.error(response.data.msg);
                             }

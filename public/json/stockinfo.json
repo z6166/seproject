@@ -3,19 +3,15 @@
   "data":
   {
     "stock":[{
-      "name":"abc",
-      "id":"123",
-      "amount":"1000",
-      "current_price":"120",
-      "cost":"100",
-      "benifit":"20000"
+      "stock_name":"abc",
+      "stock_id":"123",
+      "num":"1000",
+      "freeze_num":"100"
     },{
-      "name":"abcd",
-      "id":"1234",
-      "amount":"100",
-      "current_price":"110",
-      "cost":"90",
-      "benifit":"2000"
+      "stock_name":"abc",
+      "stock_id":"123",
+      "num":"1000",
+      "freeze_num":"100"
     }]
   }
 }

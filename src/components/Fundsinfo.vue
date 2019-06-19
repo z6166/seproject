@@ -12,7 +12,7 @@
                 @ok="handleOk"
                 @cancel="closeModal(1)"
         >
-            <a-input v-model="password"></a-input>
+            <a-input type="password" v-model="password" placeholder="请输入密码..."></a-input>
         </a-modal>
 
         <a-modal
@@ -21,7 +21,7 @@
                 @ok="newaccount"
                 @cancel="closeModal(3)"
         >
-            <a-input v-model="password"></a-input>
+            <a-input type="password" v-model="password" placeholder="请输入密码..."></a-input>
         </a-modal>
 
         <a-modal
@@ -31,6 +31,7 @@
                 @cancel="closeModal(2)"
         >
             <p style="color: red">您确定要挂失该资金账户吗？</p>
+            <a-input type="password" v-model="password" placeholder="请输入新密码..."></a-input>
         </a-modal>
 
         <a-button type="primary" @click="showModal(3,0)">创建资金账户</a-button>
@@ -82,19 +83,21 @@
             handleGuashi(){
                 let data = new FormData();
                 data.append("account_id", this.nowshow);
+                data.append("password", this.password);
                 this.$axios
-                    .post("", data)
+                    .post(this.baseurl + "/api/restore_capital", data)
                     .then(
                         response => {
                             if (response.data.code === 0) {
-                                this.$message.success("挂失成功！");
+                                this.$message.success("挂失成功！新的资金账户id为:" + response.data.id);
                                 this.closeModal(2);
                                 this.init();
                             } else {
                                 this.$message.error(response.data.msg)
                             }
                         }
-                    )
+                    );
+                this.password = "";
             },
             newaccount(){
                 if (this.password === "") {
@@ -104,7 +107,7 @@
                 data.append("user_id",this.$cookies.get("user_id"));
                 data.append("password", this.password);
                 this.$axios
-                    .post("", data)
+                    .post(this.baseurl + "/api/create_capital", data)
                     .then(
                         response => {
                             if (response.data.code === 0) {
@@ -115,7 +118,8 @@
                                 this.$message.error(response.data.msg)
                             }
                         }
-                    )
+                    );
+                this.password = "";
             },
             handleOk() {
                 if (this.password === "") {
@@ -125,7 +129,7 @@
                 data.append("account_id", this.nowshow);
                 data.append("password", this.password);
                 this.$axios
-                    .post("", data)
+                    .post(this.baseurl + "/api/delete_capital", data)
                     .then(
                         response => {
                             if (response.data.code === 0) {
@@ -136,19 +140,22 @@
                                 this.$message.error(response.data.msg)
                             }
                         }
-                    )
+                    );
+                this.password = "";
             },
             showModal(i,id) {
                 this.nowshow = id;
-                this.$set(this.isshow,i,true)
+                this.$set(this.isshow,i,true);
+                this.password = "";
             },
             closeModal(i) {
-                this.$set(this.isshow,i,false)
+                this.$set(this.isshow,i,false);
+                this.password = "";
             },
             init() {
-                /*
+
                 this.$axios
-                    .get(this.baseurl + "/api/fund",{
+                    .get(this.baseurl + "/api/get_all_capital",{
                         params:{
                             "user_id":this.$cookies.get("user_id")
                         }
@@ -156,20 +163,7 @@
                     .then(
                         response => {
                             if (response.data.code === 0) {
-                                this.data = response.data.data.fund;
-                            } else {
-                                this.$message.error(response.data.msg);
-                            }
-                        }
-                    );
-                */
-
-                this.$axios
-                    .get("http://localhost:8080/json/fundinfo.json")
-                    .then(
-                        response => {
-                            if (response.data.code === 0) {
-                                this.data = response.data.data.fund;
+                                this.data = response.data.data;
                             } else {
                                 this.$message.error(response.data.msg);
                             }

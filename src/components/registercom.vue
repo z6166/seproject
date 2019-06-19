@@ -196,7 +196,7 @@
                         this.info.operator_address = values.operator_address;
                         data.append("info",JSON.stringify(this.info));
                         this.$axios
-                            .post("", data)
+                            .post("/api/register", data)
                             .then(
                                 response => {
                                     if (response.data.code === 0) {

@@ -2,9 +2,10 @@ export default{
     install(Vue,options)
     {
         Vue.prototype.logout = function () {
-            this.$cookies.remove('token');
-            this.$cookies.remove('username');
-            this.$cookies.remove('uid');
+            this.$cookies.remove('user_id');
+            this.$cookies.remove('name');
+            this.$cookies.remove('type');
+            this.$cookies.remove('acc_type');
             this.$router.go(0);
         };
         Vue.prototype.getTime = function (timestamp) {
@@ -15,6 +16,6 @@ export default{
                 (d.getHours()) + ":" +
                 (d.getMinutes())
         };
-        Vue.prototype.baseurl = "localhost";
+        Vue.prototype.baseurl = "http://192.168.43.211:8088";
     }
 }

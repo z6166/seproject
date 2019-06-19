@@ -1,6 +1,6 @@
 <template>
     <div class="Userinfo" style="text-align: center">
-        <div v-for="(value,key) in info[$cookies.get('perorcom')]" :key="key">
+        <div v-for="(value,key) in info[parseInt($cookies.get('acc_type'))]" :key="key">
             <div v-if="!edit[key]">
                 <p style="display:inline;">{{infotoname[key]}}:</p>
                 <p style="display:inline;font-weight: bolder">{{value}}</p>
@@ -42,7 +42,6 @@
                 ],
                 info: [
                     {
-                        "date": "",
                         "name": "",
                         "ID": "",
                         "home_address": "",
@@ -94,7 +93,7 @@
         },
         methods: {
             newnameevent(id){
-                this.$set(this.info[this.$cookies.get("perorcom")],id,this.newcontent);
+                this.$set(this.info[parseInt(this.$cookies.get("acc_type"))],id,this.newcontent);
                 this.cancelnewname();
             },
             cancelnewname(){
@@ -113,7 +112,7 @@
             },
             action(id) {
                 let data = new FormData();
-                data.append("user_id", this.$cookies.get("user_id"));
+                data.append("user_id", parseInt(this.$cookies.get("user_id")));
                 data.append("request", this.actions[id]);
                 this.$axios
                     .post("", data)
@@ -130,10 +129,10 @@
             change(){
                 let data = new FormData();
                 data.append("request", "change");
-                data.append("user_id", this.$cookies.get("user_id"));
-                data.append("info",JSON.stringify(this.info[this.$cookies.get("perorcom")]));
+                data.append("user_id", parseInt(this.$cookies.get("user_id")));
+                data.append("info",JSON.stringify(this.info[parseInt(this.$cookies.get("acc_type"))]));
                 this.$axios
-                    .post("", data)
+                    .post("/api/change_account_info", data)
                     .then(
                         response => {
                             if (response.data.code === 0) {
@@ -155,15 +154,19 @@
                         }
                     }
                  */
+
+                //"/api/get_account_info"
+                let data = new FormData();
+                data.append("user_id", parseInt(this.$cookies.get("user_id")));
                 this.$axios
-                    .get("http://localhost:8080/json/userinfo.json")
+                    .post(this.baseurl + "/api/get_account_info",data)
                     .then(
                         response => {
                             if (response.data.code === 0) {
-                                for (var key in response.data.data) {
-                                    this.info[this.$cookies.get("perorcom")][key] = response.data.data[key]
+                                for (var key in response.data.data.info) {
+                                    this.info[parseInt(this.$cookies.get("acc_type"))][key] = response.data.data.info[key]
                                 }
-                                console.log(this.info[this.$cookies.get("perorcom")])
+                                console.log(this.info[parseInt(this.$cookies.get("acc_type"))])
                             } else {
                                 this.$message.error("获取用户信息失败!");
                             }

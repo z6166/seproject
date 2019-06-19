@@ -175,7 +175,6 @@
                     if (!err) {
                         console.log('Received values of form: ', values);
                         let data = new FormData();
-                        data.append("request", "register");
                         data.append("name", values.username);
                         data.append("password", values.password);
                         data.append("acc_type", "0");
@@ -190,7 +189,7 @@
                         this.info.agent_ID = values.agent_ID;
                         data.append("info",JSON.stringify(this.info));
                         this.$axios
-                            .post("", data)
+                            .post(this.baseurl + "/api/register", data)
                             .then(
                                 response => {
                                     if (response.data.code === 0) {

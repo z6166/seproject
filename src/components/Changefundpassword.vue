@@ -125,7 +125,7 @@
                         data.append("new_pass", values.newpassword);
                         console.log(data.toString());
                         this.$axios
-                            .post("",data)
+                            .post(this.baseurl + "/api/change_capital_password",data)
                             .then(
                                 response => {
                                     if (response.data.code === 0) {
@@ -134,7 +134,8 @@
                                         this.$message.error(response.data.msg)
                                     }
                                 }
-                            )
+                            );
+                        this.$emit("cancel");
                     } else {
                         this.$message.error("未知错误")
                     }
