@@ -79,9 +79,8 @@
             action(id,user_id) {
                 let data = new FormData();
                 data.append("user_id",user_id);
-                data.append("request", this.actions[id]);
                 this.$axios
-                    .post("", data)
+                    .post(this.baseurl + "/api/" + this.actions[id], data)
                     .then(
                         response => {
                             if (response.data.code === 0) {

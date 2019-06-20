@@ -14,6 +14,7 @@
         <a-list
                 itemLayout="horizontal"
                 :dataSource="data"
+                :pagination="pagination"
         >
             <a-list-item slot="renderItem" slot-scope="item, index">
                 <a-card
@@ -63,7 +64,14 @@
                 password:"",
                 nowid: "",
                 data: [],
-                fund:[]
+                fund:[],
+                pagination: {
+                    pageSize: 5, // 默认每页显示数量
+                    showSizeChanger: true, // 显示可改变每页数量
+                    pageSizeOptions: ['5', '10', '20', '30'], // 每页数量选项
+                    showTotal: total => `Total ${total} items`, // 显示总数
+                    showSizeChange: (current, pageSize) => this.pageSize = pageSize, // 改变每页数量时更新显示
+                }
             }
         },
         mounted() {
