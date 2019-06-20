@@ -11,11 +11,15 @@ import VueCookies from 'vue-cookies'
 
 import util from './utils'
 
+import Kline from './kline'
+
 Vue.use(util);
 
 Vue.use(VueCookies);
 
 Vue.use(Antd);
+
+Vue.use(Kline);
 
 Vue.config.productionTip = false;
 

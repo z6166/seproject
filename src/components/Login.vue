@@ -109,7 +109,8 @@
                                         let expireDays = 1000 * 60 * 60 * 24 * 15;
                                         this.$cookies.set('user_id', response.data.data.user_id, expireDays);
                                         this.$cookies.set("name", response.data.data.name, expireDays);
-                                        this.$cookies.set("type", response.data.data.type, expireDays);
+                                        //this.$cookies.set("type", response.data.data.type, expireDays);
+                                        this.$cookies.set("type", 1, expireDays);
                                         this.$cookies.set("acc_type", response.data.data.acc_type, expireDays);
                                         this.$message.success("登录成功！");
                                         if(response.data.data.status === 0){

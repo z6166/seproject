@@ -1,11 +1,6 @@
 <template>
     <div class="Stock" :style="contentStyleObj">
-        <img
-                alt="K line"
-                :src="k_url"
-                slot="cover"
-                :style="imgStyle"
-        />
+        <div id="kline" style="width: 800px; height: 600px; margin: auto;"></div>
         <h1>ID: {{ id }}    Name: {{ name }}</h1>
         <p>当前价格: {{price_now}}</p>
         <p>最高成交价格: {{highest_buy_order}}</p>
@@ -60,13 +55,17 @@
         },
         methods: {
             init() {
+                let kline = new this.Kline(this.$route.params.id,this.$cookies.get("type"));
+                kline.show();
                 let data = new FormData();
                 data.append("id",this.$route.params.id);
+                /*
                 this.$axios
                     .post(this.baseurl + "/api/search_stock_accurate",data)
                     .then(
                         response => {
                             if (response.data.code === 0) {
+
                                 this.name = response.data.data.name;
                                 this.id = response.data.data.id;
                                 this.price_now = response.data.data.price_now;
@@ -80,11 +79,14 @@
                                 this.lowest_price_month = response.data.data.lowest_price_month;
                                 this.k_url = response.data.data.k_url;
                                 this.important_announcement = response.data.data.important_announcement;
+
                             } else {
                                 this.$message.error(response.data.msg);
                             }
+
                         }
                     );
+                    */
             }
         }
     }

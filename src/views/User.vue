@@ -97,12 +97,12 @@
             }
         },
         mounted() {
-            /*
-            if (!this.$cookies.isKey('token')) {
+
+            if (!this.$cookies.isKey('user_id')) {
                 this.$message.error("请先登录系统！");
                 this.$router.push('/');
             }
-            */
+
         },
         computed: {
             currentView() {

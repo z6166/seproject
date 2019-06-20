@@ -28,7 +28,7 @@
                     <a-menu slot="overlay" style="width: 100px">
                         <a-menu-item key="1">
                             <a v-if="!this.$cookies.isKey('user_id')" @click="showModal(0)">登录</a>
-                            <a v-if="this.$cookies.isKey('user_id')" @click="this.logout">退出</a>
+                            <a v-if="this.$cookies.isKey('user_id')" @click="logout()">退出</a>
                         </a-menu-item>
                         <a-menu-item v-if="this.$cookies.isKey('user_id')" key="2">
                             <router-link to="/user" style="color: rgba(0, 0, 0, 0.65)">个人中心</router-link>
