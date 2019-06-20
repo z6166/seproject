@@ -16,6 +16,6 @@ export default{
                 (d.getHours()) + ":" +
                 (d.getMinutes())
         };
-        Vue.prototype.baseurl = "http://10.180.131.250:8088";
+        Vue.prototype.baseurl = "http://192.168.43.211:8088";
     }
 }

@@ -59,12 +59,11 @@
                 kline.show();
                 let data = new FormData();
                 data.append("id",this.$route.params.id);
-                /*
                 this.$axios
                     .post(this.baseurl + "/api/search_stock_accurate",data)
                     .then(
                         response => {
-                            if (response.data.code === 0) {
+                            if (response.data.code === 1) {
 
                                 this.name = response.data.data.name;
                                 this.id = response.data.data.id;
@@ -86,7 +85,6 @@
 
                         }
                     );
-                    */
             }
         }
     }

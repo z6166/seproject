@@ -65,7 +65,7 @@
                     :help="passwordError() || ''"
             >
                 <a-input v-decorator="['password',
-          {rules: [{ required: true, message: '请正确输入资金账户密码'}]}]"
+          {rules: [{ required: true, message: '请正确输入资金账户密码'}]}]" type="password"
                 />
             </a-form-item>
 

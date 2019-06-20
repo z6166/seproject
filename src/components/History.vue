@@ -10,19 +10,23 @@
             <a-input v-model="password" placeholder="输入您的资金账户密码"></a-input>
         </a-modal>
 
+        <a-switch checkedChildren="购买记录" unCheckedChildren="出售记录" defaultChecked @change='onChange'/>
 
         <a-list
                 itemLayout="horizontal"
-                :dataSource="data"
+                :dataSource="datashow"
                 :pagination="pagination"
         >
             <a-list-item slot="renderItem" slot-scope="item, index">
                 <a-card
                         :bordered=true
-                        :title="'ID: ' + item.sell_id"
+                        :title="'ID: ' + item.id"
                         style="width: 100%;">
                     <a-card-grid style="width:25%;textAlign:'center'">
                         <p style="font-weight: bolder">股票名称:{{item.stock_name}}</p>
+                    </a-card-grid>
+                    <a-card-grid style="width:25%;textAlign:'center'">
+                        <p style="font-weight: bolder">资金账户:{{item.card_id}}</p>
                     </a-card-grid>
                     <a-card-grid style="width:25%;textAlign:'center'">
                         <p style="font-weight: bolder">股票ID:{{item.stock_id}}</p>
@@ -31,22 +35,26 @@
                         <p style="font-weight: bolder">交易价格:{{item.price}}</p>
                     </a-card-grid>
                     <a-card-grid style="width:25%;textAlign:'center'">
-                        <p style="font-weight: bolder">交易数量:{{item.amount}}</p>
+                        <p style="font-weight: bolder">交易数量:{{item.total}}</p>
                     </a-card-grid>
                     <a-card-grid style="width:25%;textAlign:'center'">
-                        <p style="font-weight: bolder">交易日期:{{item.data}}</p>
+                        <p style="font-weight: bolder">交易日期:{{item.date}}</p>
                     </a-card-grid>
                     <a-card-grid style="width:25%;textAlign:'center'">
                         <p style="font-weight: bolder">交易时间:{{item.time}}</p>
                     </a-card-grid>
                     <a-card-grid style="width:25%;textAlign:'center'">
-                        <p style="font-weight: bolder">剩余数量:{{item.reset}}</p>
+                        <p style="font-weight: bolder">剩余数量:{{item.rest}}</p>
                     </a-card-grid>
                     <a-card-grid style="width:25%;textAlign:'center'">
                         <p style="font-weight: bolder">状态:{{item.status}}</p>
                     </a-card-grid>
                     <a-card-grid style="width:25%;textAlign:'center'">
-                        <a-button type="primary" v-if="item.status === 'waiting'" @click="showModal(item,account_id,item.sell_id)">撤回该指令</a-button>
+                        <p v-if="item.type === 0" style="font-weight: bolder">指令类型:购买</p>
+                        <p v-else style="font-weight: bolder">指令类型:出售</p>
+                    </a-card-grid>
+                    <a-card-grid style="width:25%;textAlign:'center'" v-if="item.status === 'waiting'">
+                        <a-button type="primary" @click="showModal(item.card_id,item.id,item.type)">撤回该指令</a-button>
                     </a-card-grid>
 
                 </a-card>
@@ -60,10 +68,14 @@
         name: "histroy",
         data() {
             return {
+                buyorsell:0,
                 isshow:false,
                 password:"",
                 nowid: "",
+                nowaccount:"",
+                nowtype:"",
                 data: [],
+                datashow:[],
                 fund:[],
                 pagination: {
                     pageSize: 5, // 默认每页显示数量
@@ -78,23 +90,35 @@
             this.init();
         },
         methods: {
+            onChange(checked){
+              if(this.buyorsell === 0){
+                  this.buyorsell = 1;
+              } else {
+                  this.buyorsell = 0;
+              }
+              this.handledata();
+            },
             closeModal(i) {
                 this.isshow = false;
+                this.nowshow = 0;
+                this.nowaccount = 0;
+                this.nowtype = 0;
             },
-            showModal(account_id,id) {
+            showModal(account_id,id,type) {
                 this.nowshow = id;
                 this.nowaccount = account_id;
+                this.nowtype = type;
                 this.isshow = true;
             },
-            cancel(id){
+            cancel(){
 
                 let data = new FormData();
                 data.append("account_id", this.nowaccount);
                 data.append("order_id", this.nowshow);
                 data.append("password", this.password);
-                data.append("type","0");
+                data.append("type",this.nowtype);
                 this.$axios
-                    .post("/api/undo", data)
+                    .post(this.baseurl + "/api/undo", data)
                     .then(
                         response => {
                             if (response.data.code === 0) {
@@ -105,6 +129,15 @@
                             }
                         }
                     )
+            },
+            handledata(){
+                this.datashow = [];
+                for(var i = 0;i<this.data.length;i++){
+                    if(this.data[i].type === this.buyorsell){
+                        this.datashow.push(this.data[i]);
+                    }
+                }
+                console.log(this.datashow);
             },
             init() {
 
@@ -144,11 +177,8 @@
                                     .post(this.baseurl + "/api/recent_ops",data)
                                     .then(
                                         response => {
-                                            if (response.data.code === 0) {
-                                                this.data = response.data.data.history;
-                                            } else {
-                                                this.$message.error(response.data.msg);
-                                            }
+                                                this.data = response.data;
+                                                this.handledata();
                                         }
                                     );
                             } else {
@@ -159,18 +189,6 @@
 
 
 
-
-                this.$axios
-                    .get("http://localhost:8080/json/history.json")
-                    .then(
-                        response => {
-                            if (response.data.code === 0) {
-                                this.data = response.data.data.history;
-                            } else {
-                                this.$message.error(response.data.msg);
-                            }
-                        }
-                    )
             },
         }
     }

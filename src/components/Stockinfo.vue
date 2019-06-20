@@ -3,6 +3,7 @@
         <Stocksell
             :visible="isshow"
             :stockid="nowid"
+            :cardid="nowcard"
             v-if="isshow"
             @cancel="closeModal"/>
         <a-list
@@ -22,8 +23,10 @@
                         <p style="font-weight: bolder">冻结数量:{{item.freeze_num}}</p>
                     </a-card-grid>
                     <a-card-grid style="width:50%;textAlign:'center'">
-                        <p v-if="item.type === '0'" style="font-weight: bolder">指令类型:购买</p>
-                        <p v-else style="font-weight: bolder">指令类型:出售</p>
+                        <p style="font-weight: bolder">发行量:{{item.stock_sum}}</p>
+                    </a-card-grid>
+                    <a-card-grid style="width:50%;textAlign:'center'">
+                        <p style="font-weight: bolder">类型:{{item.stock_type}}</p>
                     </a-card-grid>
                     <a-card-grid style="width:100%;textAlign:'center'">
                         <a-divider type="vertical"/>
@@ -31,7 +34,7 @@
                             <a-button type="primary">查看详情</a-button>
                         </router-link>
                         <a-divider type="vertical"/>
-                        <a-button type="primary" @click="showModal(item.stock_id)">出售股票</a-button>
+                        <a-button type="primary" @click="showModal(item.stock_id,item.card_id)">出售股票</a-button>
                     </a-card-grid>
                 </a-card>
             </a-list-item>
@@ -47,6 +50,7 @@
         data() {
             return {
                 nowid:null,
+                nowcard:null,
                 isshow:false,
                 data: [],
                 pagination: {
@@ -62,34 +66,37 @@
             this.init();
         },
         methods: {
-            showModal(id) {
+            showModal(id,card_id) {
                 console.log(id);
                 this.nowid = id;
+                this.nowcard = card_id;
                 this.isshow = true
             },
             closeModal() {
+                this.nowid = null;
+                this.nowcard = null;
                 this.isshow = false
             },
             init() {
 
                 this.$axios
-                    .get("http://localhost:8080/json/fundinfo.json")
+                    .get(this.baseurl + "/api/get_all_capital",{
+                        params:{
+                            "user_id":this.$cookies.get("user_id")
+                        }
+                    })
                     .then(
                         response => {
                             if (response.data.code === 0) {
-                                this.fund = response.data.data.fund;
-                                console.log(this.fund);
+                                this.fund = response.data.data;
                                 let data = new FormData();
+                                data.append("type", "stock");
                                 data.append("account_id", JSON.stringify(this.fund));
                                 this.$axios
                                     .post(this.baseurl + "/api/get_account_stock",data)
                                     .then(
                                         response => {
-                                            if (response.data.code === 0) {
-                                                this.data = response.data.data.stock;
-                                            } else {
-                                                this.$message.error(response.data.msg);
-                                            }
+                                                this.data = response.data;
                                         }
                                     );
                             } else {
@@ -116,17 +123,6 @@
                     );
                 */
 
-                this.$axios
-                    .get("http://localhost:8080/json/stockinfo.json")
-                    .then(
-                        response => {
-                            if (response.data.code === 0) {
-                                this.data = response.data.data.stock;
-                            } else {
-                                this.$message.error(response.data.msg);
-                            }
-                        }
-                    )
             },
         }
     }

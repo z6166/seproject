@@ -3,7 +3,7 @@
 <template>
     <div class="Search" id="Search" style="text-align: center">
         <a-input-group compact>
-            <a-select v-model="searchselect" defaultValue="0">
+            <a-select v-model="searchselect" defaultValue="1">
                 <a-select-option value="0">股票名称</a-select-option>
                 <a-select-option value="1">股票代码</a-select-option>
             </a-select>
@@ -63,7 +63,7 @@
         props:["canbuy"],
         data() {
             return {
-                searchselect: '0',
+                searchselect: '1',
                 Searchresult:[],
                 columns,
                 searchcontent: '',
@@ -100,7 +100,7 @@
                     .post(this.baseurl + "/api/search_stock_ambiguous",data)
                     .then(
                         response => {
-                                this.Searchresult = response.data.stock
+                                this.Searchresult = response.data.data.stock
                         }
                     );
             },

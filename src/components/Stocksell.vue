@@ -21,6 +21,7 @@
                         :help="stock_idError() || ''"
                 >
                     <a-input
+                            disabled=true
                             v-decorator="['stock_id',
           {rules: [{ required: true}]}]"
                     />
@@ -72,7 +73,7 @@
                         :help="passwordError() || ''"
                 >
                     <a-input v-decorator="['password',
-          {rules: [{ required: true, message: '请正确输入资金账户密码'}]}]"
+          {rules: [{ required: true, message: '请正确输入资金账户密码'}]}]" type="password"
                     />
                 </a-form-item>
                 <a-form-item
@@ -89,7 +90,7 @@
 
     export default {
         name: "Stocksell",
-        props: ["stockid","visible"],
+        props: ["stockid","visible","cardid"],
         data() {
             return {
                 data:[],
@@ -100,6 +101,7 @@
             console.log(this.$props.stockid);
             this.form.setFieldsValue({
                 stock_id:this.$props.stockid,
+                card_id:this.$props.cardid,
             });
         },
         methods: {
