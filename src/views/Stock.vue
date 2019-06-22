@@ -11,7 +11,6 @@
         <p>本周最低价格: {{lowest_price_week}}</p>
         <p>本月最高价格: {{highest_price_month}}</p>
         <p>本月最低价格: {{lowest_price_month}}</p>
-        <p>重要公告: {{important_announcement}}</p>
     </div>
 </template>
 
@@ -77,7 +76,6 @@
                                 this.highest_price_month = response.data.data.highest_price_month;
                                 this.lowest_price_month = response.data.data.lowest_price_month;
                                 this.k_url = response.data.data.k_url;
-                                this.important_announcement = response.data.data.important_announcement;
 
                             } else {
                                 this.$message.error(response.data.msg);

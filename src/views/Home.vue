@@ -1,11 +1,5 @@
 <template>
   <div class="Home" :style="contentStyleObj">
-        <a-card>
-          <div id="kline" style="width: 100%;height: auto"></div>
-          <a-card-meta
-                  title="K线图">
-          </a-card-meta>
-        </a-card>
         <Search :canbuy="0" style="padding-top: 20px"/>
   </div>
 </template>

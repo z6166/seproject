@@ -61,7 +61,7 @@
 
 
         <a-layout-footer style="text-align: center">
-            Ant Design ©2018 Created by Ant ZSJ
+            Created by Group HJH
         </a-layout-footer>
     </a-layout>
 </template>

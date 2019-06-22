@@ -92,8 +92,11 @@
                     )
             },
             init(){
+                let data = new FormData();
+                data.append("offset",'0');
+                data.append("amount",'100');
                 this.$axios
-                    .get("http://localhost:8080/json/admin.json")
+                    .post(this.baseurl + "/api/admin_get_account_by_limit",data)
                     .then(
                         response => {
                             if (response.data.code === 0) {

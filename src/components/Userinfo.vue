@@ -129,10 +129,11 @@
             change(){
                 let data = new FormData();
                 data.append("request", "change");
+                data.append("acc_type", parseInt(this.$cookies.get("acc_type")));
                 data.append("user_id", parseInt(this.$cookies.get("user_id")));
                 data.append("info",JSON.stringify(this.info[parseInt(this.$cookies.get("acc_type"))]));
                 this.$axios
-                    .post("/api/change_account_info", data)
+                    .post(this.baseurl + "/api/change_account_info", data)
                     .then(
                         response => {
                             if (response.data.code === 0) {
