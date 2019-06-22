@@ -10,6 +10,9 @@
         <RegisterCom
                 :visible="isshow[2]"
                 @cancel="closeModal(2)"></RegisterCom>
+        <Adminlogin
+                :visible="isshow[3]"
+                @cancel="closeModal(3)"></Adminlogin>
         <a-layout-header>
             <a-menu
                     theme="dark"
@@ -26,24 +29,30 @@
                         <a-icon style="font-size: 20px" type="user"/>
                     </a>
                     <a-menu slot="overlay" style="width: 100px">
-                        <a-menu-item key="1">
-                            <a v-if="!this.$cookies.isKey('user_id')" @click="showModal(0)">登录</a>
-                            <a v-if="this.$cookies.isKey('user_id')" @click="logout()">退出</a>
+                        <a-menu-item v-if="!this.$cookies.isKey('user_id') && !this.$cookies.isKey('admin')" key="1">
+                            <a @click="showModal(0)">登录</a>
                         </a-menu-item>
                         <a-menu-item v-if="this.$cookies.isKey('user_id')" key="2">
                             <router-link to="/user" style="color: rgba(0, 0, 0, 0.65)">个人中心</router-link>
                         </a-menu-item>
 
-                        <a-menu-item v-if="!this.$cookies.isKey('user_id')" key="3">
-                            <a v-if="!this.$cookies.isKey('user_id')" @click="showModal(1)">个人用户注册</a>
+                        <a-menu-item v-if="!this.$cookies.isKey('user_id') && !this.$cookies.isKey('admin')" key="3">
+                            <a @click="showModal(1)">个人用户注册</a>
                         </a-menu-item>
 
-                        <a-menu-item v-if="!this.$cookies.isKey('user_id')" key="4">
-                            <a v-if="!this.$cookies.isKey('user_id')" @click="showModal(2)">企业用户注册</a>
+                        <a-menu-item v-if="!this.$cookies.isKey('user_id') && !this.$cookies.isKey('admin')" key="4">
+                            <a @click="showModal(2)">企业用户注册</a>
                         </a-menu-item>
 
-                        <a-menu-item v-if="this.$cookies.isKey('user_id')" key="5">
+                        <a-menu-item v-if="!this.$cookies.isKey('user_id') && !this.$cookies.isKey('admin')" key="5">
+                            <a @click="showModal(3)">管理员登录</a>
+                        </a-menu-item>
+
+                        <a-menu-item v-if="this.$cookies.isKey('admin')" key="6">
                             <router-link to="/admin" style="color: rgba(0, 0, 0, 0.65)">管理员界面</router-link>
+                        </a-menu-item>
+                        <a-menu-item v-if="this.$cookies.isKey('user_id') || this.$cookies.isKey('admin')" key="7">
+                            <a @click="logout()">退出</a>
                         </a-menu-item>
 
                     </a-menu>
@@ -68,15 +77,17 @@
 
 <script>
     import Login from "@/components/Login";
+    import Adminlogin from "@/components/adminlogin"
     import RegisterPersonal from "@/components/registerpersonal"
     import RegisterCom from "@/components/registercom"
 
     export default {
         name: "app",
-        components: {Login,RegisterPersonal,RegisterCom},
+        components: {Login,RegisterPersonal,RegisterCom,Adminlogin},
         data() {
             return {
                 isshow: [
+                    false,
                     false,
                     false,
                     false

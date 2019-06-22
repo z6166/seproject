@@ -3,10 +3,6 @@
 <template>
     <div class="Search" id="Search" style="text-align: center;padding: 0 10px">
         <a-input-group compact>
-            <a-select v-model="searchselect" defaultValue="0">
-                <a-select-option value="0">uid</a-select-option>
-                <a-select-option value="1">username</a-select-option>
-            </a-select>
             <a-input v-model="searchcontent" @pressEnter="searchevent" style="width: 60%">
                 <a-icon slot="suffix" type="search" @click="searchevent"></a-icon>
             </a-input>
@@ -26,22 +22,22 @@
 
 <script>
     const columns = [{
-        title: "uid",
-        dataIndex: 'uid',
-        key: 'uid',
-    }, {
         title: 'user_id',
         dataIndex: 'user_id',
         key: 'user_id',
     }, {
-        title: 'username',
-        dataIndex: 'username',
-        key: 'username',
+        title: 'name',
+        dataIndex: 'name',
+        key: 'name',
     },{
         title: 'type',
         dataIndex: 'type',
         key: 'type',
-    }, {
+    },{
+        title: 'acc_type',
+        dataIndex: 'acc_type',
+        key: 'acc_type',
+    },{
         title: '操作',
         dataIndex: 'action',
         key: 'action',
@@ -57,7 +53,6 @@
                     "suspend",
                     "cancel",
                 ],
-                searchselect: '0',
                 Searchresult:[],
                 columns,
                 searchcontent: '',
@@ -92,6 +87,10 @@
                     )
             },
             init(){
+                if (!this.$cookies.isKey('admin')) {
+                    this.$message.error("请先登录系统！");
+                    this.$router.push('/');
+                }
                 let data = new FormData();
                 data.append("offset",'0');
                 data.append("amount",'100');
@@ -100,7 +99,7 @@
                     .then(
                         response => {
                             if (response.data.code === 0) {
-                                this.Searchresult = response.data.data.userdata;
+                                this.Searchresult = response.data.data;
                             } else {
                                 this.$message.error(response.data.msg);
                             }

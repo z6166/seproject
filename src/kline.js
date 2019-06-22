@@ -2,6 +2,7 @@ import echarts from 'echarts'
 export default {
     install(Vue, options) {
         Vue.prototype.Kline = (function (stock_id,isVIP) {
+            console.log(isVIP);
                 const dom = document.getElementById("kline");
                 const myChart = echarts.init(dom);
 
@@ -405,7 +406,7 @@ export default {
                                         if (isVIP) {
                                             flushHis('week');
                                         } else {
-                                            alert("您不是VIP，无法使用本功能");
+                                            this.$message.error("您不是VIP，无法使用本功能");
                                         }
                                     }
                                 },
@@ -417,7 +418,7 @@ export default {
                                         if (isVIP) {
                                             flushHis('month');
                                         } else {
-                                            alert("您不是VIP，无法使用本功能");
+                                            this.$message.error("您不是VIP，无法使用本功能");
                                         }
                                     }
                                 },
@@ -429,7 +430,7 @@ export default {
                                         if (isVIP) {
                                             flushHis('year');
                                         } else {
-                                            alert("您不是VIP，无法使用本功能");
+                                            this.$message.error("您不是VIP，无法使用本功能");
                                         }
                                     }
                                 }
@@ -769,7 +770,7 @@ export default {
                                         if (isVIP) {
                                             flushHis('week');
                                         } else {
-                                            alert("您不是VIP，无法使用本功能");
+                                            this.$message.error("您不是VIP，无法使用本功能");
                                         }
 
                                     }
@@ -782,7 +783,7 @@ export default {
                                         if (isVIP) {
                                             flushHis('month');
                                         } else {
-                                            alert("您不是VIP，无法使用本功能");
+                                            this.$message.error("您不是VIP，无法使用本功能");
                                         }
                                     }
                                 },
@@ -794,7 +795,7 @@ export default {
                                         if (isVIP) {
                                             flushHis('year');
                                         } else {
-                                            alert("您不是VIP，无法使用本功能");
+                                            this.$message.error("您不是VIP，无法使用本功能");
                                         }
                                     }
                                 }
@@ -849,6 +850,9 @@ export default {
                         flushRt();
                     }
                     console.log(Date.now());
+                };
+                this.showyear = function () {
+                    flushHis("month");
                 }
             }
 

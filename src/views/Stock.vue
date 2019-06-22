@@ -52,6 +52,9 @@
         mounted() {
             this.init();
         },
+        beforeDestroy() {
+            clearInterval(this.timer);
+        },
         methods: {
             init() {
                 let kline = new this.Kline(this.$route.params.id,this.$cookies.get("type"));
@@ -83,6 +86,7 @@
 
                         }
                     );
+                this.timer = setInterval(kline.show,10000);
             }
         }
     }

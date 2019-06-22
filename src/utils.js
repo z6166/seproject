@@ -6,6 +6,7 @@ export default{
             this.$cookies.remove('name');
             this.$cookies.remove('type');
             this.$cookies.remove('acc_type');
+            this.$cookies.remove('admin');
             this.$router.go(0);
         };
         Vue.prototype.getTime = function (timestamp) {
@@ -16,6 +17,6 @@ export default{
                 (d.getHours()) + ":" +
                 (d.getMinutes())
         };
-        Vue.prototype.baseurl = "http://10.180.69.2:8088";
+        Vue.prototype.baseurl = "http://192.168.43.211:8088";
     }
 }

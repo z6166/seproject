@@ -68,7 +68,7 @@
 <script>
 
     export default {
-        name: "Login",
+        name: "Adminlogin",
         props: ['visible'],
         data() {
             return {
@@ -98,26 +98,18 @@
                     if (!err) {
                         console.log('Received values of form: ', values);
                         let data = new FormData();
-                        data.append("request", "login");
                         data.append("name", values.username);
                         data.append("password", values.password);
                         this.$axios
-                            .post(this.baseurl + "/api/login",data)
+                            .post(this.baseurl + "/api/admin_login",data)
                             .then(
                                 response => {
                                     if (response.data.code === 0) {
                                         let expireDays = 1000 * 60 * 60 * 24 * 15;
-                                        this.$cookies.set('user_id', response.data.data.user_id, expireDays);
-                                        this.$cookies.set("name", response.data.data.name, expireDays);
-                                        //this.$cookies.set("type", response.data.data.type, expireDays);
-                                        this.$cookies.set("type", response.data.data.type, expireDays);
-                                        this.$cookies.set("acc_type", response.data.data.acc_type, expireDays);
+                                        this.$cookies.set('admin', 1, expireDays);
                                         this.$message.success("登录成功！");
-                                        if(response.data.data.status === 0){
-                                            this.$message.info("账号已冻结");
-                                        }
                                         this.$emit("cancel");
-                                        this.$router.push('/');
+                                        this.$router.push('/admin');
                                     } else {
                                         this.$message.error(response.data.msg)
                                     }
