@@ -80,6 +80,7 @@
                         response => {
                             if (response.data.code === 0) {
                                 this.$message.success("操作成功！");
+                                this.init();
                             } else {
                                 this.$message.error(response.data.msg)
                             }

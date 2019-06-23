@@ -851,8 +851,8 @@ export default {
                     }
                     console.log(Date.now());
                 };
-                this.showyear = function () {
-                    flushHis("month");
+                this.showday = function () {
+                    flushHis("day");
                 }
             }
 
